@@ -34,8 +34,8 @@ jobs:
     steps:
       - name: Trigger UI Tests via CloudSmith webhook
         run: |
-          WEBHOOK_URL="https://event-ai.us-west-2.api.aws/webhook/generic/b086be6e-d917-4d81-bbdb-8b9414ec5048"
-          WEBHOOK_SECRET="XsSavCjpSb3S2FP9rfFebzvx6g5DOgkOrO2oq2WLbgI="
+          WEBHOOK_URL="https://event-ai.us-east-1.api.aws/webhook/generic/abe58e7a-7a2a-40bf-a8ee-4c0b067467b7"
+          WEBHOOK_SECRET="zR8JBbNEWSzsyCOgvHE9mxCNDkK3v4yLBBippLCeyqo="
           PAYLOAD='{"eventType":"deployment_completed","testProfileId":"88d92217-af49-43f9-b694-2e0c3c6d05e7","environment":"beta","repository":"${{ github.repository }}","commitSha":"${{ github.sha }}"}'
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
           SIGNATURE=$(echo -n "${TIMESTAMP}:${PAYLOAD}" | openssl dgst -sha256 -hmac "${WEBHOOK_SECRET}" -binary | base64)
@@ -48,8 +48,8 @@ jobs:
 
       - name: Trigger API Tests via CloudSmith webhook
         run: |
-          WEBHOOK_URL="https://event-ai.us-west-2.api.aws/webhook/generic/b086be6e-d917-4d81-bbdb-8b9414ec5048"
-          WEBHOOK_SECRET="XsSavCjpSb3S2FP9rfFebzvx6g5DOgkOrO2oq2WLbgI="
+          WEBHOOK_URL="https://event-ai.us-east-1.api.aws/webhook/generic/abe58e7a-7a2a-40bf-a8ee-4c0b067467b7"
+          WEBHOOK_SECRET="zR8JBbNEWSzsyCOgvHE9mxCNDkK3v4yLBBippLCeyqo="
           PAYLOAD='{"eventType":"deployment_completed","testProfileId":"e17f328c-5f9f-4054-b9bb-57f76f0ed42f","environment":"beta","repository":"${{ github.repository }}","commitSha":"${{ github.sha }}"}'
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
           SIGNATURE=$(echo -n "${TIMESTAMP}:${PAYLOAD}" | openssl dgst -sha256 -hmac "${WEBHOOK_SECRET}" -binary | base64)
