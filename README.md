@@ -88,3 +88,5 @@ look up pet, find by status, inventory, 404 handling).
 - Storage is purely in-memory; there is no persistence layer.
 - The login endpoint issues an opaque token but does not actually validate
   credentials, matching the reference behavior.
+
+Test
