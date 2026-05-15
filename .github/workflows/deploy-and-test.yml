@@ -22,11 +22,7 @@ jobs:
         run: mvn clean package -DskipTests
 
       - name: Deploy to Beta
-        run: |
-          echo "Deploying to beta environment..."
-          # Simulated deploy step
-          sleep 5
-          echo "Deploy complete."
+        run: echo "Deployed to beta."
 
   trigger-qa-agent:
     runs-on: ubuntu-latest
