@@ -1,0 +1,335 @@
+# Boarding domain paths
+/boarding/kennel:
+  post:
+    tags:
+      - boarding
+    summary: Add a new kennel.
+    operationId: addKennel
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: './openapi.yaml#/components/schemas/Kennel'
+        application/xml:
+          schema:
+            $ref: './openapi.yaml#/components/schemas/Kennel'
+    responses:
+      '200':
+        description: Kennel created
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/Kennel'
+      '400':
+        description: Invalid input
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/ApiResponse'
+  get:
+    tags:
+      - boarding
+    summary: List all kennels.
+    operationId: getAllKennels
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: './openapi.yaml#/components/schemas/Kennel'
+/boarding/kennel/available:
+  get:
+    tags:
+      - boarding
+    summary: Find kennels available for a date range.
+    operationId: getAvailableKennels
+    parameters:
+      - name: checkIn
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+        example: '2026-06-01'
+      - name: checkOut
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+        example: '2026-06-07'
+    responses:
+      '200':
+        description: Kennels with at least one free slot
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: './openapi.yaml#/components/schemas/Kennel'
+      '400':
+        description: Invalid or missing dates
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/ApiResponse'
+/boarding/kennel/{kennelId}:
+  get:
+    tags:
+      - boarding
+    summary: Get kennel by ID.
+    operationId: getKennel
+    parameters:
+      - name: kennelId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/Kennel'
+      '404':
+        description: Kennel not found
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/ApiResponse'
+  delete:
+    tags:
+      - boarding
+    summary: Delete a kennel.
+    operationId: deleteKennel
+    parameters:
+      - name: kennelId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+    responses:
+      '200':
+        description: Kennel deleted
+      '404':
+        description: Kennel not found
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/ApiResponse'
+/boarding/reservation:
+  post:
+    tags:
+      - boarding
+    summary: Create a boarding reservation.
+    description: >
+      Creates a reservation with status `confirmed`. Validates that the pet
+      and owner exist, the kennel exists, and the kennel has capacity for the
+      requested date range (checkOut exclusive). Overlapping active
+      (confirmed or checked_in) reservations count against capacity.
+    operationId: createReservation
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: './openapi.yaml#/components/schemas/BoardingReservation'
+        application/xml:
+          schema:
+            $ref: './openapi.yaml#/components/schemas/BoardingReservation'
+    responses:
+      '200':
+        description: Reservation confirmed
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/BoardingReservation'
+      '400':
+        description: Invalid input or kennel fully booked
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/ApiResponse'
+      '404':
+        description: Pet, owner, or kennel not found
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/ApiResponse'
+/boarding/reservation/{reservationId}:
+  get:
+    tags:
+      - boarding
+    summary: Get reservation by ID.
+    operationId: getReservation
+    parameters:
+      - name: reservationId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/BoardingReservation'
+      '404':
+        description: Reservation not found
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/ApiResponse'
+/boarding/reservation/pet/{petId}:
+  get:
+    tags:
+      - boarding
+    summary: Get all reservations for a pet.
+    operationId: getReservationsByPet
+    parameters:
+      - name: petId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: './openapi.yaml#/components/schemas/BoardingReservation'
+/boarding/reservation/owner/{username}:
+  get:
+    tags:
+      - boarding
+    summary: Get all reservations for an owner.
+    operationId: getReservationsByOwner
+    parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Successful operation
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: './openapi.yaml#/components/schemas/BoardingReservation'
+/boarding/reservation/{reservationId}/checkin:
+  post:
+    tags:
+      - boarding
+    summary: Check in a reservation.
+    description: Transitions status from `confirmed` → `checked_in`.
+    operationId: checkIn
+    parameters:
+      - name: reservationId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+    responses:
+      '200':
+        description: Checked in
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/BoardingReservation'
+      '400':
+        description: Reservation is not in confirmed status
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/ApiResponse'
+      '404':
+        description: Reservation not found
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/ApiResponse'
+/boarding/reservation/{reservationId}/checkout:
+  post:
+    tags:
+      - boarding
+    summary: Check out a reservation.
+    description: Transitions status from `checked_in` → `checked_out`.
+    operationId: checkOut
+    parameters:
+      - name: reservationId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+    responses:
+      '200':
+        description: Checked out
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/BoardingReservation'
+      '400':
+        description: Reservation is not in checked_in status
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/ApiResponse'
+      '404':
+        description: Reservation not found
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/ApiResponse'
+/boarding/reservation/{reservationId}/cancel:
+  post:
+    tags:
+      - boarding
+    summary: Cancel a reservation.
+    description: >
+      Cancels a reservation from `confirmed` or `checked_in` status.
+      Cannot cancel a reservation that is already `checked_out` or `cancelled`.
+    operationId: cancelReservation
+    parameters:
+      - name: reservationId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+    responses:
+      '200':
+        description: Reservation cancelled
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/BoardingReservation'
+      '400':
+        description: Reservation cannot be cancelled in its current state
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/ApiResponse'
+      '404':
+        description: Reservation not found
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/ApiResponse'
