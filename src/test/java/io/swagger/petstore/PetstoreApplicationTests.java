@@ -73,4 +73,63 @@ class PetstoreApplicationTests {
         mockMvc.perform(get("/pet/{id}", 99999999))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void deletePetReturns200ThenGone() throws Exception {
+        mockMvc.perform(post("/pet")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {"id":600,"name":"tempPet","photoUrls":["http://x.com"],"status":"pending"}
+                            """))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(delete("/pet/600"))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/pet/600"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void placeAndGetAndDeleteOrder() throws Exception {
+        MvcResult result = mockMvc.perform(post("/store/order")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {"id":0,"petId":1,"quantity":1,"status":"placed","complete":false}
+                            """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("placed"))
+                .andReturn();
+
+        long orderId = mapper.readTree(result.getResponse().getContentAsString()).get("id").asLong();
+
+        mockMvc.perform(get("/store/order/{id}", orderId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(orderId));
+
+        mockMvc.perform(delete("/store/order/{id}", orderId))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/store/order/{id}", orderId))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void updatePetReflectsChanges() throws Exception {
+        mockMvc.perform(post("/pet")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {"id":700,"name":"OldName","photoUrls":["http://x.com"],"status":"available"}
+                            """))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(put("/pet")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {"id":700,"name":"NewName","photoUrls":["http://x.com"],"status":"sold"}
+                            """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("NewName"))
+                .andExpect(jsonPath("$.status").value("sold"));
+    }
 }

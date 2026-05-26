@@ -2,14 +2,13 @@ package io.swagger.petstore.service;
 
 import io.swagger.petstore.exception.NotFoundException;
 import io.swagger.petstore.model.Order;
-import io.swagger.petstore.model.Pet;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -44,11 +43,11 @@ public class OrderService {
 
     /** Map of pet-status -> count of pets currently in that status. */
     public Map<String, Integer> inventory() {
-        Map<String, Integer> map = new HashMap<>();
-        for (Pet p : petService.all()) {
-            if (p.getStatus() == null) continue;
-            map.merge(p.getStatus().getValue(), 1, Integer::sum);
-        }
-        return map;
+        return petService.all().stream()
+                .filter(p -> p.getStatus() != null)
+                .collect(Collectors.toMap(
+                        p -> p.getStatus().getValue(),
+                        p -> 1,
+                        Integer::sum));
     }
 }
