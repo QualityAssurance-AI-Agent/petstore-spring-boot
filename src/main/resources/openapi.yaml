@@ -39,9 +39,10 @@ tags:
     description: Pet boarding and kennel management
 
 # Paths are split into domain-specific files:
-#   openapi-pet.yaml          — /pet/** endpoints
-#   openapi-store-user.yaml   — /store/** and /user/** endpoints
-#   openapi-boarding.yaml     — /boarding/** endpoints
+#   openapi-pet.yaml     — /pet/** endpoints
+#   openapi-store.yaml   — /store/** endpoints
+#   openapi-user.yaml    — /user/** endpoints
+#   openapi-boarding.yaml — /boarding/** endpoints
 paths:
   /pet:
     $ref: './openapi-pet.yaml#/~1pet'
@@ -54,21 +55,21 @@ paths:
   /pet/{petId}/uploadImage:
     $ref: './openapi-pet.yaml#/~1pet~1{petId}~1uploadImage'
   /store/inventory:
-    $ref: './openapi-store-user.yaml#/~1store~1inventory'
+    $ref: './openapi-store.yaml#/~1store~1inventory'
   /store/order:
-    $ref: './openapi-store-user.yaml#/~1store~1order'
+    $ref: './openapi-store.yaml#/~1store~1order'
   /store/order/{orderId}:
-    $ref: './openapi-store-user.yaml#/~1store~1order~1{orderId}'
+    $ref: './openapi-store.yaml#/~1store~1order~1{orderId}'
   /user:
-    $ref: './openapi-store-user.yaml#/~1user'
+    $ref: './openapi-user.yaml#/~1user'
   /user/createWithList:
-    $ref: './openapi-store-user.yaml#/~1user~1createWithList'
+    $ref: './openapi-user.yaml#/~1user~1createWithList'
   /user/login:
-    $ref: './openapi-store-user.yaml#/~1user~1login'
+    $ref: './openapi-user.yaml#/~1user~1login'
   /user/logout:
-    $ref: './openapi-store-user.yaml#/~1user~1logout'
+    $ref: './openapi-user.yaml#/~1user~1logout'
   /user/{username}:
-    $ref: './openapi-store-user.yaml#/~1user~1{username}'
+    $ref: './openapi-user.yaml#/~1user~1{username}'
   /boarding/kennel:
     $ref: './openapi-boarding.yaml#/~1boarding~1kennel'
   /boarding/kennel/available:
