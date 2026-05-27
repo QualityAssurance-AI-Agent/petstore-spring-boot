@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 @Service
 public class PetService {
@@ -70,25 +71,16 @@ public class PetService {
     }
 
     public List<Pet> findByStatus(List<Pet.Status> statuses) {
-        List<Pet> out = new ArrayList<>();
-        for (Pet p : pets.values()) {
-            if (statuses.contains(p.getStatus())) out.add(p);
-        }
-        return out;
+        return pets.values().stream()
+                .filter(p -> statuses.contains(p.getStatus()))
+                .collect(Collectors.toList());
     }
 
     public List<Pet> findByTags(List<String> tagNames) {
-        List<Pet> out = new ArrayList<>();
-        for (Pet p : pets.values()) {
-            if (p.getTags() == null) continue;
-            for (Tag t : p.getTags()) {
-                if (t != null && tagNames.contains(t.getName())) {
-                    out.add(p);
-                    break;
-                }
-            }
-        }
-        return out;
+        return pets.values().stream()
+                .filter(p -> p.getTags() != null && p.getTags().stream()
+                        .anyMatch(t -> t != null && tagNames.contains(t.getName())))
+                .collect(Collectors.toList());
     }
 
     public Collection<Pet> all() {
