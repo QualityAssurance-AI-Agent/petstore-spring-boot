@@ -45,51 +45,51 @@ tags:
 #   openapi-boarding.yaml — /boarding/** endpoints
 paths:
   /pet:
-    $ref: './openapi-pet.yaml#/~1pet'
+    $ref: './openapi-pet.yaml#/paths/~1pet'
   /pet/findByStatus:
-    $ref: './openapi-pet.yaml#/~1pet~1findByStatus'
+    $ref: './openapi-pet.yaml#/paths/~1pet~1findByStatus'
   /pet/findByTags:
-    $ref: './openapi-pet.yaml#/~1pet~1findByTags'
+    $ref: './openapi-pet.yaml#/paths/~1pet~1findByTags'
   /pet/{petId}:
-    $ref: './openapi-pet.yaml#/~1pet~1{petId}'
+    $ref: './openapi-pet.yaml#/paths/~1pet~1{petId}'
   /pet/{petId}/uploadImage:
-    $ref: './openapi-pet.yaml#/~1pet~1{petId}~1uploadImage'
+    $ref: './openapi-pet.yaml#/paths/~1pet~1{petId}~1uploadImage'
   /store/inventory:
-    $ref: './openapi-store.yaml#/~1store~1inventory'
+    $ref: './openapi-store.yaml#/paths/~1store~1inventory'
   /store/order:
-    $ref: './openapi-store.yaml#/~1store~1order'
+    $ref: './openapi-store.yaml#/paths/~1store~1order'
   /store/order/{orderId}:
-    $ref: './openapi-store.yaml#/~1store~1order~1{orderId}'
+    $ref: './openapi-store.yaml#/paths/~1store~1order~1{orderId}'
   /user:
-    $ref: './openapi-user.yaml#/~1user'
+    $ref: './openapi-user.yaml#/paths/~1user'
   /user/createWithList:
-    $ref: './openapi-user.yaml#/~1user~1createWithList'
+    $ref: './openapi-user.yaml#/paths/~1user~1createWithList'
   /user/login:
-    $ref: './openapi-user.yaml#/~1user~1login'
+    $ref: './openapi-user.yaml#/paths/~1user~1login'
   /user/logout:
-    $ref: './openapi-user.yaml#/~1user~1logout'
+    $ref: './openapi-user.yaml#/paths/~1user~1logout'
   /user/{username}:
-    $ref: './openapi-user.yaml#/~1user~1{username}'
+    $ref: './openapi-user.yaml#/paths/~1user~1{username}'
   /boarding/kennel:
-    $ref: './openapi-boarding.yaml#/~1boarding~1kennel'
+    $ref: './openapi-boarding.yaml#/paths/~1boarding~1kennel'
   /boarding/kennel/available:
-    $ref: './openapi-boarding.yaml#/~1boarding~1kennel~1available'
+    $ref: './openapi-boarding.yaml#/paths/~1boarding~1kennel~1available'
   /boarding/kennel/{kennelId}:
-    $ref: './openapi-boarding.yaml#/~1boarding~1kennel~1{kennelId}'
+    $ref: './openapi-boarding.yaml#/paths/~1boarding~1kennel~1{kennelId}'
   /boarding/reservation:
-    $ref: './openapi-boarding.yaml#/~1boarding~1reservation'
+    $ref: './openapi-boarding.yaml#/paths/~1boarding~1reservation'
   /boarding/reservation/{reservationId}:
-    $ref: './openapi-boarding.yaml#/~1boarding~1reservation~1{reservationId}'
+    $ref: './openapi-boarding.yaml#/paths/~1boarding~1reservation~1{reservationId}'
   /boarding/reservation/pet/{petId}:
-    $ref: './openapi-boarding.yaml#/~1boarding~1reservation~1pet~1{petId}'
+    $ref: './openapi-boarding.yaml#/paths/~1boarding~1reservation~1pet~1{petId}'
   /boarding/reservation/owner/{username}:
-    $ref: './openapi-boarding.yaml#/~1boarding~1reservation~1owner~1{username}'
+    $ref: './openapi-boarding.yaml#/paths/~1boarding~1reservation~1owner~1{username}'
   /boarding/reservation/{reservationId}/checkin:
-    $ref: './openapi-boarding.yaml#/~1boarding~1reservation~1{reservationId}~1checkin'
+    $ref: './openapi-boarding.yaml#/paths/~1boarding~1reservation~1{reservationId}~1checkin'
   /boarding/reservation/{reservationId}/checkout:
-    $ref: './openapi-boarding.yaml#/~1boarding~1reservation~1{reservationId}~1checkout'
+    $ref: './openapi-boarding.yaml#/paths/~1boarding~1reservation~1{reservationId}~1checkout'
   /boarding/reservation/{reservationId}/cancel:
-    $ref: './openapi-boarding.yaml#/~1boarding~1reservation~1{reservationId}~1cancel'
+    $ref: './openapi-boarding.yaml#/paths/~1boarding~1reservation~1{reservationId}~1cancel'
 
 components:
   schemas:
