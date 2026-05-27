@@ -15,23 +15,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './openapi.yaml#/components/schemas/Kennel'
+              $ref: '#/components/schemas/Kennel'
           application/xml:
             schema:
-              $ref: './openapi.yaml#/components/schemas/Kennel'
+              $ref: '#/components/schemas/Kennel'
       responses:
         '200':
           description: Kennel created
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/Kennel'
+                $ref: '#/components/schemas/Kennel'
         '400':
           description: Invalid input
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/ApiResponse'
+                $ref: '#/components/schemas/ApiResponse'
     get:
       tags:
         - boarding
@@ -45,7 +45,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: './openapi.yaml#/components/schemas/Kennel'
+                  $ref: '#/components/schemas/Kennel'
   /boarding/kennel/available:
     get:
       tags:
@@ -75,13 +75,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: './openapi.yaml#/components/schemas/Kennel'
+                  $ref: '#/components/schemas/Kennel'
         '400':
           description: Invalid or missing dates
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/ApiResponse'
+                $ref: '#/components/schemas/ApiResponse'
   /boarding/kennel/{kennelId}:
     get:
       tags:
@@ -101,13 +101,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/Kennel'
+                $ref: '#/components/schemas/Kennel'
         '404':
           description: Kennel not found
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/ApiResponse'
+                $ref: '#/components/schemas/ApiResponse'
     delete:
       tags:
         - boarding
@@ -128,7 +128,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/ApiResponse'
+                $ref: '#/components/schemas/ApiResponse'
   /boarding/reservation:
     post:
       tags:
@@ -145,29 +145,29 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './openapi.yaml#/components/schemas/BoardingReservation'
+              $ref: '#/components/schemas/BoardingReservation'
           application/xml:
             schema:
-              $ref: './openapi.yaml#/components/schemas/BoardingReservation'
+              $ref: '#/components/schemas/BoardingReservation'
       responses:
         '200':
           description: Reservation confirmed
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/BoardingReservation'
+                $ref: '#/components/schemas/BoardingReservation'
         '400':
           description: Invalid input or kennel fully booked
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/ApiResponse'
+                $ref: '#/components/schemas/ApiResponse'
         '404':
           description: Pet, owner, or kennel not found
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/ApiResponse'
+                $ref: '#/components/schemas/ApiResponse'
   /boarding/reservation/{reservationId}:
     get:
       tags:
@@ -187,13 +187,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/BoardingReservation'
+                $ref: '#/components/schemas/BoardingReservation'
         '404':
           description: Reservation not found
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/ApiResponse'
+                $ref: '#/components/schemas/ApiResponse'
   /boarding/reservation/pet/{petId}:
     get:
       tags:
@@ -215,7 +215,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: './openapi.yaml#/components/schemas/BoardingReservation'
+                  $ref: '#/components/schemas/BoardingReservation'
   /boarding/reservation/owner/{username}:
     get:
       tags:
@@ -236,7 +236,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: './openapi.yaml#/components/schemas/BoardingReservation'
+                  $ref: '#/components/schemas/BoardingReservation'
   /boarding/reservation/{reservationId}/checkin:
     post:
       tags:
@@ -257,19 +257,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/BoardingReservation'
+                $ref: '#/components/schemas/BoardingReservation'
         '400':
           description: Reservation is not in confirmed status
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/ApiResponse'
+                $ref: '#/components/schemas/ApiResponse'
         '404':
           description: Reservation not found
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/ApiResponse'
+                $ref: '#/components/schemas/ApiResponse'
   /boarding/reservation/{reservationId}/checkout:
     post:
       tags:
@@ -290,19 +290,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/BoardingReservation'
+                $ref: '#/components/schemas/BoardingReservation'
         '400':
           description: Reservation is not in checked_in status
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/ApiResponse'
+                $ref: '#/components/schemas/ApiResponse'
         '404':
           description: Reservation not found
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/ApiResponse'
+                $ref: '#/components/schemas/ApiResponse'
   /boarding/reservation/{reservationId}/cancel:
     post:
       tags:
@@ -325,16 +325,112 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/BoardingReservation'
+                $ref: '#/components/schemas/BoardingReservation'
         '400':
           description: Reservation cannot be cancelled in its current state
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/ApiResponse'
+                $ref: '#/components/schemas/ApiResponse'
         '404':
           description: Reservation not found
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/ApiResponse'
+                $ref: '#/components/schemas/ApiResponse'
+
+servers:
+  - url: http://localhost:8080/api/v3
+components:
+  schemas:
+    Kennel:
+      type: object
+      required:
+        - name
+        - size
+        - capacity
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+          example: 11
+        name:
+          type: string
+          example: Small Suites
+        size:
+          type: string
+          enum:
+            - small
+            - medium
+            - large
+          example: small
+        capacity:
+          type: integer
+          format: int32
+          minimum: 1
+          example: 5
+        description:
+          type: string
+          example: Cozy suites for small dogs and cats
+      xml:
+        name: kennel
+    BoardingReservation:
+      type: object
+      required:
+        - petId
+        - kennelId
+        - ownerUsername
+        - checkInDate
+        - checkOutDate
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+          example: 501
+        petId:
+          type: integer
+          format: int64
+          example: 10
+        kennelId:
+          type: integer
+          format: int64
+          example: 11
+        ownerUsername:
+          type: string
+          example: john_doe
+        checkInDate:
+          type: string
+          format: date
+          example: '2026-06-01'
+        checkOutDate:
+          type: string
+          format: date
+          example: '2026-06-07'
+        status:
+          type: string
+          readOnly: true
+          enum:
+            - confirmed
+            - checked_in
+            - checked_out
+            - cancelled
+          example: confirmed
+        specialInstructions:
+          type: string
+          example: Needs medication twice daily
+      xml:
+        name: boardingReservation
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: '##default'

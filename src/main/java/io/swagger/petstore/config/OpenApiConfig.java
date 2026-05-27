@@ -14,7 +14,6 @@ public class OpenApiConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler(
-                        "/openapi.yaml", "/openapi.json",
                         "/openapi-pet.yaml",
                         "/openapi-store.yaml",
                         "/openapi-user.yaml",

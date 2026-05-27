@@ -38,20 +38,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './openapi.yaml#/components/schemas/Order'
+              $ref: '#/components/schemas/Order'
           application/xml:
             schema:
-              $ref: './openapi.yaml#/components/schemas/Order'
+              $ref: '#/components/schemas/Order'
           application/x-www-form-urlencoded:
             schema:
-              $ref: './openapi.yaml#/components/schemas/Order'
+              $ref: '#/components/schemas/Order'
       responses:
         '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/Order'
+                $ref: '#/components/schemas/Order'
         '400':
           description: Invalid input
         '422':
@@ -80,10 +80,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './openapi.yaml#/components/schemas/Order'
+                $ref: '#/components/schemas/Order'
             application/xml:
               schema:
-                $ref: './openapi.yaml#/components/schemas/Order'
+                $ref: '#/components/schemas/Order'
         '400':
           description: Invalid ID supplied
         '404':
@@ -114,3 +114,52 @@ paths:
           description: Order not found
         default:
           description: Unexpected error
+
+servers:
+  - url: http://localhost:8080/api/v3
+components:
+  schemas:
+    Order:
+      x-swagger-router-model: io.swagger.petstore.model.Order
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        petId:
+          type: integer
+          format: int64
+          example: 198772
+        quantity:
+          type: integer
+          format: int32
+          example: 7
+        shipDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          description: Order Status
+          example: approved
+          enum:
+            - placed
+            - approved
+            - delivered
+        complete:
+          type: boolean
+      xml:
+        name: order
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://petstore3.swagger.io/oauth/authorize
+          scopes:
+            "write:pets": modify pets in your account
+            "read:pets": read your pets
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
