@@ -1,27 +1,19 @@
-# User domain paths
-/user:
-  post:
-    tags:
-      - user
-    summary: Create user.
-    description: This can only be done by the logged in user.
-    x-swagger-router-controller: UserController
-    operationId: createUser
-    requestBody:
-      description: Created user object
-      content:
-        application/json:
-          schema:
-            $ref: './openapi.yaml#/components/schemas/User'
-        application/xml:
-          schema:
-            $ref: './openapi.yaml#/components/schemas/User'
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: './openapi.yaml#/components/schemas/User'
-    responses:
-      '200':
-        description: successful operation
+# User API domain paths
+openapi: 3.0.4
+info:
+  title: Petstore - User API
+  version: 1.0.27
+paths:
+  /user:
+    post:
+      tags:
+        - user
+      summary: Create user.
+      description: This can only be done by the logged in user.
+      x-swagger-router-controller: UserController
+      operationId: createUser
+      requestBody:
+        description: Created user object
         content:
           application/json:
             schema:
@@ -29,114 +21,156 @@
           application/xml:
             schema:
               $ref: './openapi.yaml#/components/schemas/User'
-      default:
-        description: Unexpected error
-/user/createWithList:
-  post:
-    tags:
-      - user
-    summary: Creates list of users with given input array.
-    description: Creates list of users with given input array.
-    x-swagger-router-controller: UserController
-    operationId: createUsersWithListInput
-    requestBody:
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
+          application/x-www-form-urlencoded:
+            schema:
               $ref: './openapi.yaml#/components/schemas/User'
-    responses:
-      '200':
-        description: Successful operation
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: './openapi.yaml#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: './openapi.yaml#/components/schemas/User'
+        default:
+          description: Unexpected error
+  /user/createWithList:
+    post:
+      tags:
+        - user
+      summary: Creates list of users with given input array.
+      description: Creates list of users with given input array.
+      x-swagger-router-controller: UserController
+      operationId: createUsersWithListInput
+      requestBody:
         content:
           application/json:
             schema:
               type: array
               items:
                 $ref: './openapi.yaml#/components/schemas/User'
-          application/xml:
-            schema:
-              type: array
-              items:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './openapi.yaml#/components/schemas/User'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: './openapi.yaml#/components/schemas/User'
+        default:
+          description: Unexpected error
+  /user/login:
+    get:
+      tags:
+        - user
+      summary: Logs user into the system.
+      description: Log into the system.
+      operationId: loginUser
+      parameters:
+        - name: username
+          in: query
+          description: The user name for login
+          required: false
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password for login in clear text
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              description: date in UTC when token expires
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/xml:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid username/password supplied
+        default:
+          description: Unexpected error
+  /user/logout:
+    get:
+      tags:
+        - user
+      summary: Logs out current logged in user session.
+      description: Log user out of the system.
+      operationId: logoutUser
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+        default:
+          description: Unexpected error
+  /user/{username}:
+    get:
+      tags:
+        - user
+      summary: Get user by user name.
+      description: Get user detail based on username.
+      operationId: getUserByName
+      parameters:
+        - name: username
+          in: path
+          description: The name that needs to be fetched. Use user1 for testing
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
                 $ref: './openapi.yaml#/components/schemas/User'
-      default:
-        description: Unexpected error
-/user/login:
-  get:
-    tags:
-      - user
-    summary: Logs user into the system.
-    description: Log into the system.
-    operationId: loginUser
-    parameters:
-      - name: username
-        in: query
-        description: The user name for login
-        required: false
-        schema:
-          type: string
-      - name: password
-        in: query
-        description: The password for login in clear text
-        required: false
-        schema:
-          type: string
-    responses:
-      '200':
-        description: successful operation
-        headers:
-          X-Rate-Limit:
-            description: calls per hour allowed by the user
-            schema:
-              type: integer
-              format: int32
-          X-Expires-After:
-            description: date in UTC when token expires
-            schema:
-              type: string
-              format: date-time
-        content:
-          application/xml:
-            schema:
-              type: string
-          application/json:
-            schema:
-              type: string
-      '400':
-        description: Invalid username/password supplied
-      default:
-        description: Unexpected error
-/user/logout:
-  get:
-    tags:
-      - user
-    summary: Logs out current logged in user session.
-    description: Log user out of the system.
-    operationId: logoutUser
-    parameters: []
-    responses:
-      '200':
-        description: successful operation
-      default:
-        description: Unexpected error
-/user/{username}:
-  get:
-    tags:
-      - user
-    summary: Get user by user name.
-    description: Get user detail based on username.
-    operationId: getUserByName
-    parameters:
-      - name: username
-        in: path
-        description: The name that needs to be fetched. Use user1 for testing
-        required: true
-        schema:
-          type: string
-    responses:
-      '200':
-        description: successful operation
+            application/xml:
+              schema:
+                $ref: './openapi.yaml#/components/schemas/User'
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+    put:
+      tags:
+        - user
+      summary: Update user resource.
+      description: This can only be done by the logged in user.
+      x-swagger-router-controller: UserController
+      operationId: updateUser
+      parameters:
+        - name: username
+          in: path
+          description: name that need to be deleted
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent user in the store
         content:
           application/json:
             schema:
@@ -144,66 +178,37 @@
           application/xml:
             schema:
               $ref: './openapi.yaml#/components/schemas/User'
-      '400':
-        description: Invalid username supplied
-      '404':
-        description: User not found
-      default:
-        description: Unexpected error
-  put:
-    tags:
-      - user
-    summary: Update user resource.
-    description: This can only be done by the logged in user.
-    x-swagger-router-controller: UserController
-    operationId: updateUser
-    parameters:
-      - name: username
-        in: path
-        description: name that need to be deleted
-        required: true
-        schema:
-          type: string
-    requestBody:
-      description: Update an existent user in the store
-      content:
-        application/json:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/User'
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: bad request
+        '404':
+          description: user not found
+        default:
+          description: Unexpected error
+    delete:
+      tags:
+        - user
+      summary: Delete user resource.
+      description: This can only be done by the logged in user.
+      operationId: deleteUser
+      parameters:
+        - name: username
+          in: path
+          description: The name that needs to be deleted
+          required: true
           schema:
-            $ref: './openapi.yaml#/components/schemas/User'
-        application/xml:
-          schema:
-            $ref: './openapi.yaml#/components/schemas/User'
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: './openapi.yaml#/components/schemas/User'
-    responses:
-      '200':
-        description: successful operation
-      '400':
-        description: bad request
-      '404':
-        description: user not found
-      default:
-        description: Unexpected error
-  delete:
-    tags:
-      - user
-    summary: Delete user resource.
-    description: This can only be done by the logged in user.
-    operationId: deleteUser
-    parameters:
-      - name: username
-        in: path
-        description: The name that needs to be deleted
-        required: true
-        schema:
-          type: string
-    responses:
-      '200':
-        description: User deleted
-      '400':
-        description: Invalid username supplied
-      '404':
-        description: User not found
-      default:
-        description: Unexpected error
+            type: string
+      responses:
+        '200':
+          description: User deleted
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
