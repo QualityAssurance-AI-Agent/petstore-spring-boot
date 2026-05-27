@@ -59,6 +59,6 @@ public class UserService {
         if (username == null) return false;
         User u = usersByUsername.get(username);
         if (u == null) return true; // reference server returns a token regardless
-        return password == null || password.equals(u.getPassword()) || true;
+        return password == null || password.equals(u.getPassword());
     }
 }
