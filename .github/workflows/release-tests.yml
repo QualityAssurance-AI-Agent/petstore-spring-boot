@@ -1,10 +1,11 @@
-name: Release Tests
+name: Release api test
 
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   checks: write
@@ -12,18 +13,25 @@ permissions:
   pull-requests: read
 
 jobs:
-  # Add any job before (e.g. build, deploy) ...
-
-  test:
+  deploy-beta:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Trigger Release Tests
+      - name: Deploy to Beta
+        run: echo "Deployed to beta."
+
+  trigger-api-tests:
+    runs-on: ubuntu-latest
+    needs: deploy-beta
+    steps:
+      - name: Trigger API Tests
         uses: QualityAssurance-AI-Agent/devops-agent-qa-internal@main
         with:
           webhook-url: ${{ secrets.DEVOPS_AGENT_WEBHOOK_URL }}
           webhook-secret: ${{ secrets.DEVOPS_AGENT_WEBHOOK_SECRET }}
           test-profile-id: ki-a992799a-af8f-4aa7-9d76-f7594e6c7538
-          test-requirement: <WHAT_TO_TEST>  # optional
+          test-requirement: "check one api and stop"
         env:
           GITHUB_TOKEN: ${{ github.token }}
