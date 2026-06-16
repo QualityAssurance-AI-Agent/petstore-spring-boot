@@ -32,7 +32,6 @@ public class OrderService {
 
     public Order getById(long id) {
         Order o = orders.get(id);
-        if (o == null) throw new NotFoundException("Order not found");
         return o;
     }
 
