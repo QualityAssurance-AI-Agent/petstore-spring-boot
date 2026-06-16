@@ -19,7 +19,7 @@ jobs:
     steps:
 
       - name: Trigger Release Tests
-        uses: QualityAssurance-AI-Agent/devops-agent-qa-internal@main
+        uses: aws-actions/devops-agent-qa-internal@main
         with:
           webhook-url: ${{ secrets.DEVOPS_AGENT_WEBHOOK_URL }}
           webhook-secret: ${{ secrets.DEVOPS_AGENT_WEBHOOK_SECRET }}
