@@ -37,6 +37,7 @@ public class OrderService {
 
     public void delete(long id) {
         if (orders.remove(id) == null) {
+            // add exception
             throw new NotFoundException("Order not found");
         }
     }
