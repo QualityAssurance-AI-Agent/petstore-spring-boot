@@ -19,11 +19,11 @@ jobs:
     steps:
 
       - name: Trigger Release Tests
-        uses: aws-actions/devops-agent-qa-internal@main
+        uses: QualityAssurance-AI-Agent/devops-agent-qa-internal@main
         with:
           webhook-url: ${{ secrets.DEVOPS_AGENT_WEBHOOK_URL }}
           webhook-secret: ${{ secrets.DEVOPS_AGENT_WEBHOOK_SECRET }}
-          test-profile-id: <YOUR_TEST_PROFILE_ID>
+          test-profile-id: ki-a992799a-af8f-4aa7-9d76-f7594e6c7538
           test-requirement: <WHAT_TO_TEST>  # optional
         env:
           GITHUB_TOKEN: ${{ github.token }}
